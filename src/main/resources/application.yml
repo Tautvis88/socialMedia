@@ -1,0 +1,27 @@
+# Database
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  output:
+    ansi:
+      enabled: ALWAYS
+
+server:
+  port: 1111
+
+# Custom configuration for external API
+external:
+  api:
+    url: http://localhost:1112/api/post/
