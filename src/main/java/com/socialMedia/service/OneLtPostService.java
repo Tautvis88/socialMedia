@@ -1,16 +1,11 @@
 package com.socialMedia.service;
 
-import com.socialMedia.controller.OneLtPostController;
-import com.socialMedia.dto.OneLtPostResponseDTO;
 import com.socialMedia.dto.PostResponseDTO;
-import com.socialMedia.model.User;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -29,12 +24,8 @@ public class OneLtPostService {
 	}
 
 	public List<PostResponseDTO> getAllUserPostsFromOneLt(final Long userId) {
-		List<OneLtPostResponseDTO> userPostsFromOneLt =
-				Collections.singletonList(restTemplate.getForEntity(externalApiUrl + userId, OneLtPostResponseDTO.class).getBody());
-		return oneLtPostMappingService.mapToResponseDTO(userPostsFromOneLt);
-	}
+		var userPostsFromOneLt = restTemplate.getForObject(externalApiUrl + userId, String.class);
 
-	public ResponseEntity<String> getAllUserPostsFromOneLt2(final Long userId) {
-		return restTemplate.getForEntity(externalApiUrl + userId, String.class);
+		return oneLtPostMappingService.mapToResponseDTO(userPostsFromOneLt);
 	}
 }

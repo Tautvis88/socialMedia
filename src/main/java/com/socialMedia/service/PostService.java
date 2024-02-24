@@ -52,7 +52,7 @@ public class PostService {
 	}
 
 	public List<PostResponseDTO> getAllUserPosts(final Long id) {
-		Optional<User> user = userRepository.findById(id);
-		return postMappingService.mapToResponseDTO(user.get().getPosts());
+		var user = userRepository.findById(id).get();
+		return postMappingService.mapToResponseDTO(user.getPosts());
 	}
 }

@@ -13,8 +13,8 @@ public class AppConfig {
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder
-				.setConnectTimeout(Duration.ofSeconds(5))
-				.setReadTimeout(Duration.ofSeconds(5))
+				.setConnectTimeout(Duration.ofSeconds(1000))
+				.setReadTimeout(Duration.ofSeconds(1000))
 				.build();
 	}
 }

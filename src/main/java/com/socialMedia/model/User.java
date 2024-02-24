@@ -37,5 +37,4 @@ public class User {
 	private void onCreate() {
 		createdAt = LocalDateTime.now();
 	}
-
 }

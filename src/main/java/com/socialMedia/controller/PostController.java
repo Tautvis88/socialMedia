@@ -21,7 +21,6 @@ public class PostController {
 	private final PostService postService;
 	private final PostRequestValidator postRequestValidator;
 	private final UserRequestValidator userRequestValidator;
-	private final CustomLogger log;
 
 	@Operation(summary = "Get all user Posts.")
 	@GetMapping("/{userId}")

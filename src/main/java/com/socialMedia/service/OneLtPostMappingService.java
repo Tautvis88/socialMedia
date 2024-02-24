@@ -10,19 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.socialMedia.util.JsonStringParser.parseJsonStringToList;
+
 @Service
 @RequiredArgsConstructor
 public class OneLtPostMappingService {
 
-	public List<PostResponseDTO> mapToResponseDTO(final List<OneLtPostResponseDTO> userOneLtPosts) {
-		List<PostResponseDTO> mappedOneLtPosts = new ArrayList<>();
-		for (OneLtPostResponseDTO userOneLtPost : userOneLtPosts) {
-			PostResponseDTO dto = new PostResponseDTO();
-			dto.setUserId(userOneLtPost.getUserId());
-			dto.setUserName(userOneLtPost.getUserName());
-			dto.setPostMessage(userOneLtPost.getPostMessage());
-			mappedOneLtPosts.add(dto);
-		}
-		return mappedOneLtPosts;
+	public List<PostResponseDTO> mapToResponseDTO(final String jsonString) {
+		return parseJsonStringToList(jsonString);
 	}
 }

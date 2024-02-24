@@ -1,6 +1,8 @@
 package com.socialMedia.service;
 
+import com.socialMedia.dto.PostRequestDTO;
 import com.socialMedia.dto.PostResponseDTO;
+import com.socialMedia.util.JsonStringParser;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.socialMedia.util.JsonStringParser.parseJsonStringToList;
+
 @Service
 @Data
 public class CombinedPostService {
@@ -17,22 +21,24 @@ public class CombinedPostService {
 	private final PostService postService;
 	private final RestTemplate restTemplate;
 	private final String externalApiUrl;
+	private final OneLtPostService oneLtPostService;
 
-	public CombinedPostService(PostService postService, RestTemplate restTemplate, @Value("${external.api.url}") String externalApiUrl) {
+	public CombinedPostService(PostService postService, RestTemplate restTemplate,
+							   @Value("${external.api.url}") String externalApiUrl, OneLtPostService oneLtPostService) {
 		this.postService = postService;
 		this.restTemplate = restTemplate;
 		this.externalApiUrl = externalApiUrl;
+		this.oneLtPostService = oneLtPostService;
 	}
 
 	public List<PostResponseDTO> getAllPostsByUserIdFromDifferentSystems(final Long userId) {
-		List<PostResponseDTO> combinedPosts = new ArrayList<>();
 
-		List<PostResponseDTO> currentSystemPosts = postService.getAllUserPosts(userId);
-		combinedPosts.addAll(currentSystemPosts);
+		var currentSystemPosts = postService.getAllUserPosts(userId);
+		var externalSystemPosts = oneLtPostService.getAllUserPostsFromOneLt(userId);
 
-		var externalSystemPosts = restTemplate.getForObject(externalApiUrl + userId, String.class);
-//		combinedPosts.addAll(Arrays.asList(externalSystemPosts));
+		currentSystemPosts.addAll(externalSystemPosts);
 
-		return null;
+		return currentSystemPosts;
 	}
+
 }
